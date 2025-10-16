@@ -9,6 +9,23 @@ The key Windows APIs used are:
 1. `EnableAllPrivilegesOnToken`: To ensure all available privileges are enabled on the duplicated token before launching the process.
 1. `CreateProcessWithTokenW`: To launch the new executable under the stolen token's security context.
 
+## Compilation
+### Microsoft Visual C++ compiler (cl)
+```powershell
+cl impersonate_system.cpp /EHsc /link Advapi32.lib
+```
+- `/EHsc`: Enables C++ exception handling.
+- `/link Advapi32.lib`: Explicitly links against the Advapi32.lib library, which contains LookupPrivilegeValueW, AdjustTokenPrivileges, LookupAccountSidW, and other required security functions. The necessary Kernel32.lib functions are linked by default.
+
+### GCC
+If you use the MinGW or MinGW-w64 toolchain, you can compile with the GCC/G++ compiler.
+```bash
+g++ impersonate_system.cpp -o impersonate_system.exe -lkernel32 -ladvapi32
+```
+- `-o impersonate_system.exe`: Sets the output file name.
+- `-lkernel32`: Links the necessary kernel functions (e.g., CreateToolhelp32Snapshot).
+- `-ladvapi32`: Links the necessary advanced API functions (security and token operations).
+
 ## Usage
 The program supports two optional command-line arguments: the path to the executable to run, and the PID of the target process to impersonate.
 
