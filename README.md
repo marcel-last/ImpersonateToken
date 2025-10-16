@@ -15,7 +15,7 @@ The key Windows APIs used are:
 cl impersonate_system.cpp /EHsc /link Advapi32.lib
 ```
 - `/EHsc`: Enables C++ exception handling.
-- `/link Advapi32.lib`: Explicitly links against the Advapi32.lib library, which contains LookupPrivilegeValueW, AdjustTokenPrivileges, LookupAccountSidW, and other required security functions. The necessary Kernel32.lib functions are linked by default.
+- `/link Advapi32.lib`: Explicitly links against the `Advapi32.lib` library, which contains `LookupPrivilegeValueW`, `AdjustTokenPrivileges`, `LookupAccountSidW`, and other required security functions. The necessary `Kernel32.lib` functions are linked by default.
 
 ### GCC
 If you use the MinGW or MinGW-w64 toolchain, you can compile with the GCC/G++ compiler.
@@ -23,7 +23,7 @@ If you use the MinGW or MinGW-w64 toolchain, you can compile with the GCC/G++ co
 g++ impersonate_system.cpp -o impersonate_system.exe -lkernel32 -ladvapi32
 ```
 - `-o impersonate_system.exe`: Sets the output file name.
-- `-lkernel32`: Links the necessary kernel functions (e.g., CreateToolhelp32Snapshot).
+- `-lkernel32`: Links the necessary kernel functions (e.g., `CreateToolhelp32Snapshot`).
 - `-ladvapi32`: Links the necessary advanced API functions (security and token operations).
 
 ## Usage
