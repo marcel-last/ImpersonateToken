@@ -43,7 +43,7 @@ impersonate_token.exe [<EXECUTABLE_PATH>] [--pid <TARGET_PID>]
 ### Examples
 | Command | Description |
 |---------|-------------|
-|`./impersonate_token.exe`|**Default behavior:** Attempts to impersonate the token of (default) process _winlogon.exe_ token and launch _C:\Windows\System32\cmd.exe_.|
+|`./impersonate_token.exe`|**Default behavior:** Attempts to impersonate the token of (default) process _winlogon.exe_ token and launches (default) _C:\Windows\System32\cmd.exe_.|
 |`./impersonate_token.exe --pid 1234`|Impersonates the token of process ID 1234 and launches (default) _C:\Windows\System32\cmd.exe_.|
 |`./impersonate_token.exe C:\tools\powershell.exe`|Impersonates the token of (default) process _winlogon.exe_ and launches _C:\tools\powershell.exe_.|
 |`./impersonate_token.exe C:\tools\powershell.exe --pid 1234`|Impersonates the token of process  ID 1234 and launches _C:\tools\powershell.exe_.|
