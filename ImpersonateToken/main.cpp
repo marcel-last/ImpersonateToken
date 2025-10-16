@@ -41,7 +41,7 @@ BOOL SetPrivilege(LPCWSTR lpszPrivilege, BOOL bEnablePrivilege) {
     if (GetLastError() == ERROR_NOT_ALL_ASSIGNED) {
         // This indicates the privilege is not assigned to the token at all.
         // Using std::wcout for correct display of the wide string privilege name.
-        std::wcout << L"The token does not have the specified privilege assigned. Priv: " << lpszPrivilege << std::endl;
+        std::wcout << L"The current user context does not have the specified token privilege assigned: " << lpszPrivilege << std::endl;
         CloseHandle(hToken);
         return FALSE;
     }
@@ -357,3 +357,4 @@ int main(int argc, char* argv[]) {
     RunCmdAsSystem(targetPid, targetProcessName.c_str(), executablePath.c_str());
     return 0;
 }
+
