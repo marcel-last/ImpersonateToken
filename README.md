@@ -26,7 +26,7 @@ impersonate_token.exe [<EXECUTABLE_PATH>] [--pid <TARGET_PID>]
 |`./impersonate_system.exe C:\tools\powershell.exe --pid 1234`|Impersonates the token of process  ID 1234 and launches _C:\tools\powershell.exe_.|
 
 ## Requirements and Limitations
-###  Security Context (MUST RUN AS ELEVATED)
+###  Security Context (MUST RUN ELEVATED)
 This program must be executed from an Elevated Command Prompt or Elevated PowerShell (Run as Administrator).
 Running the program from a standard, non-elevated user context will fail because the operating system will deny the permission checks for critical steps.
 
