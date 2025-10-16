@@ -8,7 +8,7 @@
 ## Overview
 This C++ program is a demonstration tool designed to showcase Windows Token Impersonation. It attempts to hijack the security context (token) of a running process (typically a high-privilege system process) like _winlogon.exe_ (which runs as SYSTEM) and use that token to launch a new executable (default: `C:\Windows\System32\cmd.exe`).
 
-The key Windows APIs used are:
+The Windows APIs used in this program are:
 1. `SetPrivilege`: To enable _SeDebugPrivilege_ and _SeImpersonatePrivilege_ in the current process.
 1. `OpenProcess` and `OpenProcessToken`: To gain access to the target process's token.
 1. `DuplicateTokenEx`: To create a duplicatable impersonation token (_TokenImpersonation_).
