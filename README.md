@@ -20,10 +20,10 @@ impersonate_token.exe [<EXECUTABLE_PATH>] [--pid <TARGET_PID>]
 ### Examples
 | Command | Description |
 |---------|-------------|
-|`./impersonate_system.exe`|**Default behavior:** Attempts to impersonate the token of (default) process _winlogon.exe_ token and launch _C:\Windows\System32\cmd.exe_.|
-|`./impersonate_system.exe --pid 1234`|Impersonates the token of process ID 1234 and launches _C:\Windows\System32\cmd.exe_.|
-|`./impersonate_system.exe C:\tools\powershell.exe`|Impersonates the token of (default) process _winlogon.exe_ and launches _C:\tools\powershell.exe_.|
-|`./impersonate_system.exe C:\tools\powershell.exe --pid 1234`|Impersonates the token of process  ID 1234 and launches _C:\tools\powershell.exe_.|
+|`./impersonate_token.exe`|**Default behavior:** Attempts to impersonate the token of (default) process _winlogon.exe_ token and launch _C:\Windows\System32\cmd.exe_.|
+|`./impersonate_token.exe --pid 1234`|Impersonates the token of process ID 1234 and launches _C:\Windows\System32\cmd.exe_.|
+|`./impersonate_token.exe C:\tools\powershell.exe`|Impersonates the token of (default) process _winlogon.exe_ and launches _C:\tools\powershell.exe_.|
+|`./impersonate_token.exe C:\tools\powershell.exe --pid 1234`|Impersonates the token of process  ID 1234 and launches _C:\tools\powershell.exe_.|
 
 ## Requirements and Limitations
 ###  Security Context (MUST RUN ELEVATED)
@@ -31,9 +31,9 @@ This program must be executed from an Elevated Command Prompt or Elevated PowerS
 Running the program from a standard, non-elevated user context will fail because the operating system will deny the permission checks for critical steps.
 
 ### Required Privileges
-For the process to succeed, the token of the calling process (i.e., the shell running impersonate_system.exe) must have the following privileges assigned (and the program will automatically attempt to enable them):
-1. `SeDebugPrivilege`: Required to open high-privilege target processes (like_ winlogon.exe_) and their tokens.
-1. `SeImpersonatePrivilege`: Required by the `CreateProcessWithTokenW` function to create a new process using an impersonation-level token. If the calling process's token is missing this privilege, the operation will fail with ERROR_PRIVILEGE_NOT_HELD (1314).
+For the process to succeed, the token of the calling process (i.e., the shell running **impersonate_token.exe**) must have the following privileges assigned (and the program will automatically attempt to enable them):
+1. `SeDebugPrivilege`: Required to open high-privilege target processes (like _winlogon.exe_) and their tokens.
+1. `SeImpersonatePrivilege`: Required by the _CreateProcessWithTokenW_ function to create a new process using an impersonation-level token. If the calling process's token is missing this privilege, the operation will fail with ERROR_PRIVILEGE_NOT_HELD (1314).
 
 ### Target Process Selection
 - Default Target: The default target is winlogon.exe because it reliably runs as the SYSTEM user, which is often the highest possible security context on a Windows machine.
