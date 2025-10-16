@@ -1,4 +1,8 @@
 # ImpersonateToken
+
+> [!CAUTION]
+> This repository and code within was created for.
+
 ## Overview
 This C++ program is a demonstration tool designed to showcase Windows Token Impersonation. It attempts to hijack the security context (token) of a running process (typically a high-privilege system process) like _winlogon.exe_ (which runs as SYSTEM) and use that token to launch a new executable (default: `C:\Windows\System32\cmd.exe`).
 
@@ -12,7 +16,7 @@ The key Windows APIs used are:
 ## Compilation
 ### Microsoft Visual C++ compiler (cl)
 ```powershell
-cl main.cpp /EHsc /link Advapi32.lib
+cl impersonate_token.cpp /EHsc /link Advapi32.lib
 ```
 - `/EHsc`: Enables C++ exception handling.
 - `/link Advapi32.lib`: Explicitly links against the `Advapi32.lib` library, which contains `LookupPrivilegeValueW`, `AdjustTokenPrivileges`, `LookupAccountSidW`, and other required security functions. The necessary `Kernel32.lib` functions are linked by default.
@@ -20,7 +24,7 @@ cl main.cpp /EHsc /link Advapi32.lib
 ### GCC
 If you use the MinGW or MinGW-w64 toolchain, you can compile with the GCC/G++ compiler.
 ```bash
-g++ main.cpp -o impersonate_token.exe -lkernel32 -ladvapi32
+g++ impersonate_token.cpp -o impersonate_token.exe -lkernel32 -ladvapi32
 ```
 - `-o impersonate_system.exe`: Sets the output file name.
 - `-lkernel32`: Links the necessary kernel functions (e.g., `CreateToolhelp32Snapshot`).
@@ -55,3 +59,20 @@ For the process to succeed, the token of the calling process (i.e., the shell ru
 ### Target Process Selection
 - Default Target: The default target is winlogon.exe because it reliably runs as the SYSTEM user, which is often the highest possible security context on a Windows machine.
 - Target Validity: If you specify a PID using the --pid switch, that process must exist and your calling process must have sufficient access rights (hence the need for `SeDebugPrivilege`) to query and duplicate its token.
+
+
+## Disclaimer of Liability and Warranty
+
+### Code Purpose and Intent
+All source code and content provided in this repository, including `impersonate_token.cpp` and related documentation, is intended solely for educational, training, research, and authorized development purposes. This code demonstrates security concepts and Windows API usage related to process token manipulation and privilege escalation within controlled, authorized environments.
+
+### Limitation of Liability
+THE CODE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the software or the use or other dealings in the software.
+This includes, without limitation, any claim, damages, or liability related to:
+- Misuse or Illegal Activity: Any unauthorized, illegal, or unethical use of this code, including attempts to gain unauthorized access to computer systems or violate any laws.
+- Loss of Data or System Damage: Any loss of data, system disruption, or harm caused by running, compiling, or modifying the code.
+- Failure to Obtain Legal Counsel: Any decisions made by the user based on the content of this code or its documentation without consulting qualified legal advice.
+
+### User Responsibility and Assumption of Risk
+By compiling, executing, or otherwise utilizing this code, you explicitly agree to assume all associated risks and full responsibility for any consequences. You are responsible for ensuring your actions comply with all applicable local, state, and international laws, rules, and regulations, and that you have explicit, written authorization to test or run this code on any target system.
