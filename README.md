@@ -20,7 +20,7 @@ cl main.cpp /EHsc /link Advapi32.lib
 ### GCC
 If you use the MinGW or MinGW-w64 toolchain, you can compile with the GCC/G++ compiler.
 ```bash
-g++ main.cpp -o impersonate_system.exe -lkernel32 -ladvapi32
+g++ main.cpp -o impersonate_token.exe -lkernel32 -ladvapi32
 ```
 - `-o impersonate_system.exe`: Sets the output file name.
 - `-lkernel32`: Links the necessary kernel functions (e.g., `CreateToolhelp32Snapshot`).
