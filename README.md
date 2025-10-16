@@ -1,7 +1,7 @@
 # ImpersonateToken
 
 > [!CAUTION]
-> This repository and code within was created for.
+> This repository and code within was created for training and development purposes. By compiling, executing, or otherwise utilizing this code, you explicitly agree to assume all associated risks and full responsibility for any consequences. You are responsible for ensuring your actions comply with all applicable local, state, and international laws, rules, and regulations, and that you have explicit, written authorization to test or run this code on any target system.
 
 ## Overview
 This C++ program is a demonstration tool designed to showcase Windows Token Impersonation. It attempts to hijack the security context (token) of a running process (typically a high-privilege system process) like _winlogon.exe_ (which runs as SYSTEM) and use that token to launch a new executable (default: `C:\Windows\System32\cmd.exe`).
