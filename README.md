@@ -3,11 +3,11 @@
 This C++ program is a demonstration tool designed to showcase Windows Token Impersonation. It attempts to hijack the security context (token) of a running process—typically a high-privilege system process like winlogon.exe (which runs as SYSTEM)—and use that token to launch a new executable (default: cmd.exe).
 
 The key Windows APIs used are:
-1. SetPrivilege: To enable SeDebugPrivilege and SeImpersonatePrivilege in the current process.
-1. OpenProcess and OpenProcessToken: To gain access to the target process's token.
-1. DuplicateTokenEx: To create a duplicatable impersonation token (TokenImpersonation).
-1. EnableAllPrivilegesOnToken: To ensure all available privileges are enabled on the duplicated token before launching the process.
-1. CreateProcessWithTokenW: To launch the new executable under the stolen token's security context.
+1. `SetPrivilege`: To enable `SeDebugPrivilege` and `SeImpersonatePrivilege` in the current process.
+1. `OpenProcess` and `OpenProcessToken`: To gain access to the target process's token.
+1. `DuplicateTokenEx`: To create a duplicatable impersonation token (_TokenImpersonation_).
+1. `EnableAllPrivilegesOnToken`: To ensure all available privileges are enabled on the duplicated token before launching the process.
+1. `CreateProcessWithTokenW`: To launch the new executable under the stolen token's security context.
 
 ## Usage
 The program supports two optional command-line arguments: the path to the executable to run, and the PID of the target process to impersonate.
@@ -32,9 +32,9 @@ Running the program from a standard, non-elevated user context will fail because
 
 ### Required Privileges
 For the process to succeed, the token of the calling process (i.e., the shell running impersonate_system.exe) must have the following privileges assigned (and the program will automatically attempt to enable them):
-1. SeDebugPrivilege: Required to open high-privilege target processes (like winlogon.exe) and their tokens.
-1. SeImpersonatePrivilege: Required by the CreateProcessWithTokenW function to create a new process using an impersonation-level token. If the calling process's token is missing this privilege, the operation will fail with ERROR_PRIVILEGE_NOT_HELD (1314).
+1. `SeDebugPrivilege`: Required to open high-privilege target processes (like_ winlogon.exe_) and their tokens.
+1. `SeImpersonatePrivilege`: Required by the `CreateProcessWithTokenW` function to create a new process using an impersonation-level token. If the calling process's token is missing this privilege, the operation will fail with ERROR_PRIVILEGE_NOT_HELD (1314).
 
 ### Target Process Selection
 - Default Target: The default target is winlogon.exe because it reliably runs as the SYSTEM user, which is often the highest possible security context on a Windows machine.
-- Target Validity: If you specify a PID using the --pid switch, that process must exist and your calling process must have sufficient access rights (hence the need for SeDebugPrivilege) to query and duplicate its token.
+- Target Validity: If you specify a PID using the --pid switch, that process must exist and your calling process must have sufficient access rights (hence the need for `SeDebugPrivilege`) to query and duplicate its token.
