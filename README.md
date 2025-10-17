@@ -37,7 +37,7 @@ The program supports two optional command-line arguments: the path to the execut
 
 ### Syntax
 ```
-impersonate_token.exe [<EXECUTABLE_PATH>] [--pid <TARGET_PID>]
+impersonate_token.exe [<EXECUTABLE_PATH>] [-p|--pid <TARGET_PID>]
 ```
 
 ### Examples
