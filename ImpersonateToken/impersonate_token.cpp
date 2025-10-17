@@ -41,7 +41,7 @@ BOOL SetPrivilege(LPCWSTR lpszPrivilege, BOOL bEnablePrivilege) {
     if (GetLastError() == ERROR_NOT_ALL_ASSIGNED) {
         // This indicates the privilege is not assigned to the token at all.
         // Using std::wcout for correct display of the wide string privilege name.
-        std::wcout << L"The current user context does not have the specified token privilege assigned: " << lpszPrivilege << std::endl;
+        std::wcout << L"The token does not have the specified privilege assigned. Priv: " << lpszPrivilege << std::endl;
         CloseHandle(hToken);
         return FALSE;
     }
@@ -137,7 +137,7 @@ void EnableAllPrivilegesOnToken(HANDLE hToken) {
 }
 
 // Main logic to use a specific process's token and execute a process with it
-void RunCmdAsSystem(DWORD targetPid, const wchar_t* targetProcessName, const wchar_t* commandLineW) {
+void RunCmdAsImpersonatedUser(DWORD targetPid, const wchar_t* targetProcessName, const wchar_t* commandLineW) {
     // 1. Enable SeDebugPrivilege to open the target process
     if (!SetPrivilege(SE_DEBUG_NAME, TRUE)) {
         std::cerr << "Failed to enable SeDebugPrivilege. Cannot proceed." << std::endl;
@@ -308,8 +308,8 @@ int main(int argc, char* argv[]) {
     std::wstring executablePath = defaultExecutablePath;
     std::wstring targetProcessName = defaultProcessName; // Initialize default name
 
-    // Check argv[1] for executable path if it's not the --pid switch
-    if (argc > 1 && _stricmp(argv[1], "--pid") != 0) {
+    // Check argv[1] for executable path if it's not the --pid or -p switch
+    if (argc > 1 && _stricmp(argv[1], "--pid") != 0 && _stricmp(argv[1], "-p") != 0) {
         // Argument 1 is assumed to be the executable path
 
         // Convert char* (argv[1]) to std::wstring (executablePath)
@@ -322,9 +322,10 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Parse arguments for the --pid switch (checks all arguments)
+    // Parse arguments for the --pid or -p switch (checks all arguments)
     for (int i = 1; i < argc; ++i) {
-        if (_stricmp(argv[i], "--pid") == 0 && i + 1 < argc) {
+        // Check for both --pid and -p
+        if ((_stricmp(argv[i], "--pid") == 0 || _stricmp(argv[i], "-p") == 0) && i + 1 < argc) {
             targetPid = strtoul(argv[i + 1], NULL, 10);
             pidSpecified = true;
 
@@ -349,12 +350,11 @@ int main(int argc, char* argv[]) {
         else {
             std::wcerr << L"Error: Could not find the default process (" << defaultProcessName << L"). Exiting." << std::endl;
         }
-        std::cerr << "Usage: " << argv[0] << " [<ExecutablePath>] [--pid <Target_PID>]" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " [<ExecutablePath>] [--pid <Target_PID> | -p <Target_PID>]" << std::endl;
         std::wcerr << L"Default executable: " << defaultExecutablePath << L". Default target: " << defaultProcessName << L"." << std::endl;
         return 1;
     }
 
-    RunCmdAsSystem(targetPid, targetProcessName.c_str(), executablePath.c_str());
+    RunCmdAsImpersonatedUser(targetPid, targetProcessName.c_str(), executablePath.c_str());
     return 0;
 }
-
